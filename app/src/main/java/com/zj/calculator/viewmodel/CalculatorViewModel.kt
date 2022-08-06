@@ -60,7 +60,7 @@ class CalculatorViewModel @Inject constructor(
         result: String,
         number: String
     ) {
-        if (result.length > 7) {
+        if (result.length > 8) {
             app.showToast(R.string.warn_max_length)
             Log.w(TAG, "buildNumber: max length")
             return
@@ -83,7 +83,7 @@ class CalculatorViewModel @Inject constructor(
         result: String,
         symbol: Char
     ) {
-        if (result.length > 7) {
+        if (result.length > 8) {
             app.showToast(R.string.warn_max_length)
             Log.w(TAG, "buildNumber: max length")
             return
@@ -137,11 +137,6 @@ class CalculatorViewModel @Inject constructor(
     fun buildDecimalPoint(
         result: String,
     ) {
-        if (result.length > 7) {
-            app.showToast(R.string.warn_max_length)
-            Log.w(TAG, "buildNumber: max length")
-            return
-        }
         if (result != "0") {
             if (!result.contains(".")) {
                 onResultChanged("${result}.")

@@ -37,7 +37,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
             )
             55.sp
         } else {
-            45.sp
+            40.sp
         }
 
         // 内容区
