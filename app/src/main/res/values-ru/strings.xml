@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">калькулятор</string>
+
+    <string name="warn_max_length">Достигнут максимальный ввод!</string>
+    <string name="warn_zero">дивиденды не могут быть равны нулю!</string>
+
+</resources>

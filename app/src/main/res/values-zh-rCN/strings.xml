@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">计算器</string>
+
+    <string name="warn_max_length">已达到最大输入值！</string>
+    <string name="warn_zero">被除数不能为零！</string>
+
+</resources>

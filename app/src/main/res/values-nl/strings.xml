@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Calculator</string>
+
+    <string name="warn_max_length">De maximale invoerwaarde is bereikt!</string>
+    <string name="warn_zero">Het dividend kan niet nul zijn!</string>
+
+</resources>

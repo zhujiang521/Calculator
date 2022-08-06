@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Kalkulačka</string>
+
+    <string name="warn_max_length">Maximální vstupní hodnota byla dosažena!</string>
+    <string name="warn_zero">Dividenda nemůže být nulová!</string>
+
+</resources>

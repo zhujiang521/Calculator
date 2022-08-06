@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Calculator</string>
+
+    <string name="warn_max_length">Valoarea maximă de intrare a fost atinsă!</string>
+    <string name="warn_zero">Dividendul nu poate fi zero!</string>
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">계산기</string>
+
+    <string name="warn_max_length">최대 입력 값에 도달했습니다!</string>
+    <string name="warn_zero">배당금은 제로가 될 수 없다!</string>
+
+</resources>

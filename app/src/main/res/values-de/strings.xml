@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Rechner</string>
+
+    <string name="warn_max_length">Der maximale Eingabewert wurde erreicht!</string>
+    <string name="warn_zero">Die Dividende kann nicht Null sein!</string>
+
+</resources>

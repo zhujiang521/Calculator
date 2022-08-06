@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Laskin</string>
+
+    <string name="warn_max_length">Suurin syöttöarvo on saavutettu!</string>
+    <string name="warn_zero">Osinko ei voi olla nolla!</string>
+
+</resources>

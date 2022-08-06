@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Bộ</string>
+
+    <string name="warn_max_length">Giá trị nhập tối đa đã được đạt!</string>
+    <string name="warn_zero">Sản lượng không thể là số không!</string>
+
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Beregner</string>
+
+    <string name="warn_max_length">Den maksimale input værdi er nået!</string>
+    <string name="warn_zero">Udbyttet kan ikke være nul!</string>
+
+</resources>

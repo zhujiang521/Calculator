@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Kalkulaator</string>
+
+    <string name="warn_max_length">Maksimaalne sisendväärtus on saavutatud!</string>
+    <string name="warn_zero">dividend ei saa olla null!</string>
+
+</resources>

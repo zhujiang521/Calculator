@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Kalkylator</string>
+
+    <string name="warn_max_length">Maximalt inmatningsvärde har nåtts!</string>
+    <string name="warn_zero">Utdelningen kan inte vara noll!</string>
+
+</resources>

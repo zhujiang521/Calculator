@@ -1,36 +1,54 @@
 package com.zj.calculator
 
-import android.util.Log
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.zj.calculator.widget.*
+import com.zj.calculator.viewmodel.CalculatorViewModel
+import com.zj.calculator.widget.BaseBigSymbolButton
+import com.zj.calculator.widget.BaseFunctionButton
+import com.zj.calculator.widget.BaseNumberButton
+import com.zj.calculator.widget.BaseSymbolButton
 
-private const val TAG = "CalculatorPage"
 
 @Composable
-fun CalculatorPage() {
+fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
 
+    val result by calculatorViewModel.result.observeAsState("0")
+    val isLand = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
     Column(Modifier.background(color = Color.Black)) {
+
+        // 竖屏状态下上方留白，横屏去除
+        val resultSize: TextUnit = if (!isLand) {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(0.30f)
+            )
+            55.sp
+        } else {
+            45.sp
+        }
+
         // 内容区
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.30f)
-        )
         Text(
-            text = "111", modifier = Modifier
+            text = result, modifier = Modifier
                 .fillMaxWidth()
                 .padding(15.dp),
             textAlign = TextAlign.End,
+            maxLines = 1,
             color = Color.White,
-            fontSize = 65.sp
+            fontSize = resultSize
         )
 
         // 按钮区
@@ -47,19 +65,19 @@ fun CalculatorPage() {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseFunctionButton("AC") {
-                    Log.w(TAG, "CalculatorPage: AC")
+                    calculatorViewModel.onResultChanged("0")
                 }
 
-                BaseFunctionButton("+/-") {
-                    Log.w(TAG, "CalculatorPage: +/-")
+                BaseFunctionButton("C") {
+                    calculatorViewModel.buildDeleteBit(result)
                 }
 
                 BaseFunctionButton("%") {
-                    Log.w(TAG, "CalculatorPage: %")
+                    calculatorViewModel.buildPercent(result)
                 }
 
                 BaseSymbolButton("÷") {
-                    Log.w(TAG, "CalculatorPage: ÷")
+                    calculatorViewModel.buildSymbol(result, '÷')
                 }
             }
 
@@ -70,19 +88,19 @@ fun CalculatorPage() {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseNumberButton("7") {
-                    Log.w(TAG, "CalculatorPage: 7")
+                    calculatorViewModel.buildNumber(result, "7")
                 }
 
                 BaseNumberButton("8") {
-                    Log.w(TAG, "CalculatorPage: 8")
+                    calculatorViewModel.buildNumber(result, "8")
                 }
 
                 BaseNumberButton("9") {
-                    Log.w(TAG, "CalculatorPage: 9")
+                    calculatorViewModel.buildNumber(result, "9")
                 }
 
                 BaseSymbolButton("x") {
-                    Log.w(TAG, "CalculatorPage: x")
+                    calculatorViewModel.buildSymbol(result, 'x')
                 }
             }
 
@@ -94,19 +112,19 @@ fun CalculatorPage() {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseNumberButton("4") {
-                    Log.w(TAG, "CalculatorPage: 4")
+                    calculatorViewModel.buildNumber(result, "4")
                 }
 
                 BaseNumberButton("5") {
-                    Log.w(TAG, "CalculatorPage: 5")
+                    calculatorViewModel.buildNumber(result, "5")
                 }
 
                 BaseNumberButton("6") {
-                    Log.w(TAG, "CalculatorPage: 6")
+                    calculatorViewModel.buildNumber(result, "6")
                 }
 
                 BaseSymbolButton("-") {
-                    Log.w(TAG, "CalculatorPage: -")
+                    calculatorViewModel.buildSymbol(result, '-')
                 }
             }
 
@@ -117,19 +135,19 @@ fun CalculatorPage() {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseNumberButton("1") {
-                    Log.w(TAG, "CalculatorPage: 1")
+                    calculatorViewModel.buildNumber(result, "1")
                 }
 
                 BaseNumberButton("2") {
-                    Log.w(TAG, "CalculatorPage: 2")
+                    calculatorViewModel.buildNumber(result, "2")
                 }
 
                 BaseNumberButton("3") {
-                    Log.w(TAG, "CalculatorPage: 3")
+                    calculatorViewModel.buildNumber(result, "3")
                 }
 
                 BaseSymbolButton("+") {
-                    Log.w(TAG, "CalculatorPage: +")
+                    calculatorViewModel.buildSymbol(result, '+')
                 }
             }
 
@@ -140,14 +158,14 @@ fun CalculatorPage() {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseNumberButton("0") {
-                    Log.w(TAG, "CalculatorPage: 0")
+                    calculatorViewModel.buildNumber(result, "0")
                 }
 
                 BaseNumberButton(".") {
-                    Log.w(TAG, "CalculatorPage: .")
+                    calculatorViewModel.buildDecimalPoint(result)
                 }
                 BaseBigSymbolButton("=") {
-                    Log.w(TAG, "CalculatorPage: =")
+                    calculatorViewModel.calculatorResult()
                 }
             }
 

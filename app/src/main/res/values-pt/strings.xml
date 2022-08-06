@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Calculadora</string>
+
+    <string name="warn_max_length">O valor máximo de entrada foi atingido!</string>
+    <string name="warn_zero">O dividendo não pode ser zero!</string>
+
+</resources>

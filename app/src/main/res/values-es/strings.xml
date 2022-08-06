@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Calculadora</string>
+
+    <string name="warn_max_length">¡Se ha alcanzado el valor máximo de entrada!</string>
+    <string name="warn_zero">¡El bono no puede ser cero!</string>
+
+</resources>

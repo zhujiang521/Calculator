@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Υπολογιστής</string>
+
+    <string name="warn_max_length">Η μέγιστη τιμή εισόδου έχει επιτευχθεί!</string>
+    <string name="warn_zero">Το μερίσματα δεν μπορεί να είναι μηδέν!</string>
+
+</resources>

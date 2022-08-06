@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Kalkulator</string>
+
+    <string name="warn_max_length">Maksymalna wartość wejściowa została osiągnięta!</string>
+    <string name="warn_zero">Dywidenda nie może być zerowa!</string>
+
+</resources>

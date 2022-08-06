@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">電卓</string>
+
+    <string name="warn_max_length">最大入力値に達しました！</string>
+    <string name="warn_zero">配当はゼロにすることはできません！</string>
+
+</resources>

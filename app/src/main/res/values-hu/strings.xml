@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">Számológép</string>
+
+    <string name="warn_max_length">Elértük a maximális bemeneti értéket!</string>
+    <string name="warn_zero">Az osztalék nem lehet nulla!</string>
+
+</resources>

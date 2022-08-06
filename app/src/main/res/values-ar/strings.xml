@@ -1,0 +1,8 @@
+<resources>
+    
+    <string name="app_name">حاسبة</string>
+
+    <string name="warn_max_length">أقصى قيمة المدخلات قد تم التوصل إليه !</string>
+    <string name="warn_zero">مكافأة لا يمكن أن يكون صفر !</string>
+
+</resources>

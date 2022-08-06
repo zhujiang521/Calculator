@@ -19,6 +19,7 @@ import com.zj.calculator.ui.theme.Purple200
 /**
  * 圆形按钮Base
  *
+ * @param modifier 修饰符
  * @param text 按钮上的文字
  * @param backgroundColor 按钮的背景颜色
  * @param textColor 按钮上文字的颜色
@@ -27,6 +28,7 @@ import com.zj.calculator.ui.theme.Purple200
  */
 @Composable
 fun BaseButton(
+    modifier: Modifier = Modifier.size(75.dp),
     text: String = "0",
     backgroundColor: Color = MaterialTheme.colors.primary,
     textColor: Color = Color.White,
@@ -35,12 +37,38 @@ fun BaseButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = Modifier.size(75.dp),
+        modifier = modifier,
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
     ) {
         Text(text = text, color = textColor, fontSize = fontSize)
     }
+}
+
+/**
+ * 圆形按钮Base
+ *
+ * @param text 按钮上的文字
+ * @param backgroundColor 按钮的背景颜色
+ * @param textColor 按钮上文字的颜色
+ * @param fontSize 文字大小
+ * @param onClick 按钮点击事件
+ */
+@Composable
+fun BaseNormalButton(
+    text: String = "0",
+    backgroundColor: Color = MaterialTheme.colors.primary,
+    textColor: Color = Color.White,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    onClick: () -> Unit
+) {
+    BaseButton(
+        text = text,
+        backgroundColor = backgroundColor,
+        textColor = textColor,
+        fontSize = fontSize,
+        onClick = onClick
+    )
 }
 
 /**
@@ -51,7 +79,7 @@ fun BaseButton(
  */
 @Composable
 fun BaseSymbolButton(text: String = "+", onClick: () -> Unit) {
-    BaseButton(
+    BaseNormalButton(
         text = text,
         backgroundColor = Purple200,
         textColor = Color.White,
@@ -84,7 +112,7 @@ fun BaseBigSymbolButton(text: String = "=", onClick: () -> Unit) {
  */
 @Composable
 fun BaseFunctionButton(text: String = "AC", onClick: () -> Unit) {
-    BaseButton(
+    BaseNormalButton(
         text = text,
         backgroundColor = Color.LightGray,
         textColor = Color.Black,
@@ -101,7 +129,7 @@ fun BaseFunctionButton(text: String = "AC", onClick: () -> Unit) {
  */
 @Composable
 fun BaseNumberButton(text: String = "0", onClick: () -> Unit) {
-    BaseButton(
+    BaseNormalButton(
         text = text,
         backgroundColor = Color.DarkGray,
         textColor = Color.White,
@@ -125,14 +153,14 @@ fun BaseBigButton(
     textColor: Color = Color.White,
     onClick: () -> Unit
 ) {
-    Button(
-        onClick = onClick,
+    BaseButton(
         modifier = Modifier
             .height(75.dp)
             .width(160.dp),
-        shape = CircleShape,
-        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor),
-    ) {
-        Text(text = text, color = textColor, fontSize = 25.sp)
-    }
+        text = text,
+        backgroundColor = backgroundColor,
+        textColor = textColor,
+        fontSize = 25.sp,
+        onClick = onClick
+    )
 }
