@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zj.calculator.ui.theme.Purple200
+import com.zj.calculator.ui.theme.Teal200
 import com.zj.calculator.viewmodel.CalculatorViewModel
 import com.zj.calculator.widget.BaseBigSymbolButton
 import com.zj.calculator.widget.BaseFunctionButton
@@ -25,6 +27,7 @@ import com.zj.calculator.widget.BaseSymbolButton
 fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
 
     val result by calculatorViewModel.result.observeAsState("0")
+    val symbolBg by calculatorViewModel.symbolBg.observeAsState(Pair("", Purple200))
     val isLand = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
     Column(Modifier.background(color = Color.Black)) {
 
@@ -35,7 +38,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                     .fillMaxWidth()
                     .weight(0.30f)
             )
-            55.sp
+            60.sp
         } else {
             40.sp
         }
@@ -65,7 +68,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 BaseFunctionButton("AC") {
-                    calculatorViewModel.onResultChanged("0")
+                    calculatorViewModel.buildAC()
                 }
 
                 BaseFunctionButton("C") {
@@ -76,7 +79,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                     calculatorViewModel.buildPercent(result)
                 }
 
-                BaseSymbolButton("÷") {
+                BaseSymbolButton("÷", backgroundColor = symbolBg) {
                     calculatorViewModel.buildSymbol(result, '÷')
                 }
             }
@@ -99,7 +102,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                     calculatorViewModel.buildNumber(result, "9")
                 }
 
-                BaseSymbolButton("x") {
+                BaseSymbolButton("x", backgroundColor = symbolBg) {
                     calculatorViewModel.buildSymbol(result, 'x')
                 }
             }
@@ -123,7 +126,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                     calculatorViewModel.buildNumber(result, "6")
                 }
 
-                BaseSymbolButton("-") {
+                BaseSymbolButton("-", backgroundColor = symbolBg) {
                     calculatorViewModel.buildSymbol(result, '-')
                 }
             }
@@ -146,7 +149,7 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                     calculatorViewModel.buildNumber(result, "3")
                 }
 
-                BaseSymbolButton("+") {
+                BaseSymbolButton("+", backgroundColor = symbolBg) {
                     calculatorViewModel.buildSymbol(result, '+')
                 }
             }

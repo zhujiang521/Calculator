@@ -2,10 +2,13 @@ package com.zj.calculator.viewmodel
 
 import android.app.Application
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.zj.calculator.R
+import com.zj.calculator.ui.theme.Purple200
+import com.zj.calculator.ui.theme.Teal200
 import com.zj.calculator.utils.showToast
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,6 +32,8 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private val app: Application = application
+    private var firstString = ""
+    private var isNew = false
 
     private val _result = MutableLiveData("0")
     val result: LiveData<String> = _result
@@ -40,13 +45,31 @@ class CalculatorViewModel @Inject constructor(
         _result.postValue(result)
     }
 
+    private val _symbolBg = MutableLiveData(Pair("", Purple200))
+    val symbolBg: LiveData<Pair<String, Color>> = _symbolBg
+
+    private fun onSymbolBgChanged(symbolBg: Pair<String, Color>) {
+        if (symbolBg == _symbolBg.value) {
+            return
+        }
+        _symbolBg.postValue(symbolBg)
+    }
+
+
     fun calculatorResult() {
         val value = result.value
         if (value.isNullOrEmpty() || value == "0") {
             Log.w(TAG, "calculatorResult: return")
             return
         }
-        val calculatorResult = calculatorRepository.calculatorResult(value)
+        val symBol = symbolBg.value
+        if (firstString.isEmpty() || symBol == null) {
+            onResultChanged(value)
+            return
+        }
+        val endString = "$firstString${symBol.first}${value}"
+        val calculatorResult = calculatorRepository.calculatorResult(endString)
+        onSymbolBgChanged(Pair("", Teal200))
         onResultChanged(calculatorResult)
     }
 
@@ -57,18 +80,35 @@ class CalculatorViewModel @Inject constructor(
      * @param number 需要构建的数字
      */
     fun buildNumber(
-        result: String,
+        r: String,
         number: String
     ) {
-        if (result.length > 8) {
+        if (r.length > 8) {
             app.showToast(R.string.warn_max_length)
             Log.w(TAG, "buildNumber: max length")
             return
         }
-        val v = if (result != "0") {
-            "${result}$number"
+        val result: String
+        if (isNew) {
+            onResultChanged("")
+            isNew = false
+            result = ""
         } else {
-            number
+            result = r
+        }
+        val symbol = symbolBg.value
+        val v = if (symbol == null || symbol.first.isEmpty() || firstString.isEmpty()) {
+            if (result != "0") {
+                "${result}$number"
+            } else {
+                number
+            }
+        } else {
+            if (result != "0") {
+                "${result}$number"
+            } else {
+                number
+            }
         }
         onResultChanged(v)
     }
@@ -83,19 +123,15 @@ class CalculatorViewModel @Inject constructor(
         result: String,
         symbol: Char
     ) {
-        if (result.length > 8) {
-            app.showToast(R.string.warn_max_length)
-            Log.w(TAG, "buildNumber: max length")
-            return
-        }
         if (result == "0" && symbol == '÷') {
+            onSymbolBgChanged(Pair("", Teal200))
             app.showToast(R.string.warn_zero)
             Log.w(TAG, "buildSymbol: The dividend can't be 0")
             return
         }
-        if (result.toCharArray()[result.length - 1] != symbol) {
-            onResultChanged("${result}$symbol")
-        }
+        firstString = _result.value ?: "0"
+        isNew = true
+        onSymbolBgChanged(Pair(symbol.toString(), Teal200))
     }
 
     /**
@@ -126,7 +162,13 @@ class CalculatorViewModel @Inject constructor(
             onResultChanged(result.substring(0, result.length - 1))
         } else {
             onResultChanged("0")
+            onSymbolBgChanged(Pair("", Teal200))
         }
+    }
+
+    fun buildAC() {
+        onResultChanged("0")
+        onSymbolBgChanged(Pair("", Teal200))
     }
 
     /**

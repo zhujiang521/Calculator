@@ -78,10 +78,20 @@ fun BaseNormalButton(
  * @param onClick 按钮点击事件
  */
 @Composable
-fun BaseSymbolButton(text: String = "+", onClick: () -> Unit) {
+fun BaseSymbolButton(
+    text: String = "+",
+    backgroundColor: Pair<String, Color>,
+    onClick: () -> Unit
+) {
+    val color: Color = if (text == backgroundColor.first) {
+        backgroundColor.second
+    } else {
+        Purple200
+    }
+
     BaseNormalButton(
         text = text,
-        backgroundColor = Purple200,
+        backgroundColor = color,
         textColor = Color.White,
         fontSize = 25.sp,
         onClick = onClick
