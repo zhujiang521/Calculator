@@ -29,16 +29,18 @@ class CalculatorViewModel @Inject constructor(
 
     companion object {
         private const val TAG = "CalculatorViewModel"
+        private const val DEFAULT_RESULT = "0"
     }
 
     private val app: Application = application
+    private val maxNumber = app.resources.getInteger(R.integer.max_number)
     private var firstString = ""
     private var isNew = false
 
-    private val _result = MutableLiveData("0")
+    private val _result = MutableLiveData(DEFAULT_RESULT)
     val result: LiveData<String> = _result
 
-    fun onResultChanged(result: String) {
+    private fun onResultChanged(result: String) {
         if (result == _result.value) {
             return
         }
@@ -58,7 +60,7 @@ class CalculatorViewModel @Inject constructor(
 
     fun calculatorResult() {
         val value = result.value
-        if (value.isNullOrEmpty() || value == "0") {
+        if (value.isNullOrEmpty() || value == DEFAULT_RESULT) {
             Log.w(TAG, "calculatorResult: return")
             return
         }
@@ -71,23 +73,19 @@ class CalculatorViewModel @Inject constructor(
         val calculatorResult = calculatorRepository.calculatorResult(endString)
         onSymbolBgChanged(Pair("", Teal200))
         onResultChanged(calculatorResult)
+        firstString = ""
     }
 
     /**
      * 构建数字
      *
-     * @param result 目前字符串
+     * @param r 目前字符串
      * @param number 需要构建的数字
      */
     fun buildNumber(
         r: String,
         number: String
     ) {
-        if (r.length > 8) {
-            app.showToast(R.string.warn_max_length)
-            Log.w(TAG, "buildNumber: max length")
-            return
-        }
         val result: String
         if (isNew) {
             onResultChanged("")
@@ -96,15 +94,20 @@ class CalculatorViewModel @Inject constructor(
         } else {
             result = r
         }
+        if (result.length > maxNumber) {
+            app.showToast(R.string.warn_max_length)
+            Log.w(TAG, "buildNumber: max length")
+            return
+        }
         val symbol = symbolBg.value
         val v = if (symbol == null || symbol.first.isEmpty() || firstString.isEmpty()) {
-            if (result != "0") {
+            if (result != DEFAULT_RESULT) {
                 "${result}$number"
             } else {
                 number
             }
         } else {
-            if (result != "0") {
+            if (result != DEFAULT_RESULT) {
                 "${result}$number"
             } else {
                 number
@@ -123,13 +126,13 @@ class CalculatorViewModel @Inject constructor(
         result: String,
         symbol: Char
     ) {
-        if (result == "0" && symbol == '÷') {
+        if (result == DEFAULT_RESULT && symbol == '÷') {
             onSymbolBgChanged(Pair("", Teal200))
             app.showToast(R.string.warn_zero)
             Log.w(TAG, "buildSymbol: The dividend can't be 0")
             return
         }
-        firstString = _result.value ?: "0"
+        firstString = _result.value ?: DEFAULT_RESULT
         isNew = true
         onSymbolBgChanged(Pair(symbol.toString(), Teal200))
     }
@@ -142,7 +145,7 @@ class CalculatorViewModel @Inject constructor(
     fun buildPercent(
         result: String,
     ) {
-        if (result == "0") {
+        if (result == DEFAULT_RESULT) {
             app.showToast(R.string.warn_zero)
             Log.w(TAG, "buildSymbol: The dividend can't be 0")
             return
@@ -158,16 +161,16 @@ class CalculatorViewModel @Inject constructor(
     fun buildDeleteBit(
         result: String,
     ) {
-        if (result != "0" && result.length > 1) {
+        if (result != DEFAULT_RESULT && result.length > 1) {
             onResultChanged(result.substring(0, result.length - 1))
         } else {
-            onResultChanged("0")
+            onResultChanged(DEFAULT_RESULT)
             onSymbolBgChanged(Pair("", Teal200))
         }
     }
 
     fun buildAC() {
-        onResultChanged("0")
+        onResultChanged(DEFAULT_RESULT)
         onSymbolBgChanged(Pair("", Teal200))
     }
 
@@ -179,7 +182,7 @@ class CalculatorViewModel @Inject constructor(
     fun buildDecimalPoint(
         result: String,
     ) {
-        if (result != "0") {
+        if (result != DEFAULT_RESULT) {
             if (!result.contains(".")) {
                 onResultChanged("${result}.")
             } else {
@@ -187,6 +190,27 @@ class CalculatorViewModel @Inject constructor(
             }
         } else {
             onResultChanged("${result}.")
+        }
+    }
+
+    /**
+     * 构建正负数
+     *
+     * @param result 目前字符串
+     */
+    fun buildPlusOrMinus(result: String) {
+        if (result.length > maxNumber) {
+            app.showToast(R.string.warn_max_length)
+            Log.w(TAG, "buildNumber: max length")
+            return
+        }
+        if (result == DEFAULT_RESULT) {
+            return
+        }
+        if (result.contains("-")) {
+            onResultChanged(result.substring(1, result.length))
+        } else {
+            onResultChanged("-${result}")
         }
     }
 

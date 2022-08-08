@@ -1,8 +1,6 @@
 package com.zj.calculator.widget
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -11,9 +9,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.zj.calculator.R
 import com.zj.calculator.ui.theme.Purple200
 
 /**
@@ -28,7 +28,7 @@ import com.zj.calculator.ui.theme.Purple200
  */
 @Composable
 fun BaseButton(
-    modifier: Modifier = Modifier.size(75.dp),
+    modifier: Modifier = Modifier.size(dimensionResource(id = R.dimen.btn_size)),
     text: String = "0",
     backgroundColor: Color = MaterialTheme.colors.primary,
     textColor: Color = Color.White,
@@ -93,23 +93,7 @@ fun BaseSymbolButton(
         text = text,
         backgroundColor = color,
         textColor = Color.White,
-        fontSize = 25.sp,
-        onClick = onClick
-    )
-}
-
-/**
- * 符号按钮的Base，如：+、-、x、/
- *
- * @param text 按钮上的文字
- * @param onClick 按钮点击事件
- */
-@Composable
-fun BaseBigSymbolButton(text: String = "=", onClick: () -> Unit) {
-    BaseBigButton(
-        text = text,
-        backgroundColor = Purple200,
-        textColor = Color.White,
+        fontSize = integerResource(id = R.integer.btn_symbol_text_size).sp,
         onClick = onClick
     )
 }
@@ -126,7 +110,7 @@ fun BaseFunctionButton(text: String = "AC", onClick: () -> Unit) {
         text = text,
         backgroundColor = Color.LightGray,
         textColor = Color.Black,
-        fontSize = 20.sp,
+        fontSize = integerResource(id = R.integer.btn_text_size).sp,
         onClick = onClick
     )
 }
@@ -143,34 +127,7 @@ fun BaseNumberButton(text: String = "0", onClick: () -> Unit) {
         text = text,
         backgroundColor = Color.DarkGray,
         textColor = Color.White,
-        fontSize = 20.sp,
-        onClick = onClick
-    )
-}
-
-/**
- * 大按钮Base
- *
- * @param text 按钮上的文字
- * @param backgroundColor 按钮的背景颜色
- * @param textColor 按钮上文字的颜色
- * @param onClick 按钮点击事件
- */
-@Composable
-fun BaseBigButton(
-    text: String = "0",
-    backgroundColor: Color = MaterialTheme.colors.primary,
-    textColor: Color = Color.White,
-    onClick: () -> Unit
-) {
-    BaseButton(
-        modifier = Modifier
-            .height(75.dp)
-            .width(160.dp),
-        text = text,
-        backgroundColor = backgroundColor,
-        textColor = textColor,
-        fontSize = 25.sp,
+        fontSize = integerResource(id = R.integer.btn_text_size).sp,
         onClick = onClick
     )
 }

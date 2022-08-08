@@ -1,23 +1,22 @@
 package com.zj.calculator
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zj.calculator.ui.theme.Purple200
-import com.zj.calculator.ui.theme.Teal200
 import com.zj.calculator.viewmodel.CalculatorViewModel
-import com.zj.calculator.widget.BaseBigSymbolButton
 import com.zj.calculator.widget.BaseFunctionButton
 import com.zj.calculator.widget.BaseNumberButton
 import com.zj.calculator.widget.BaseSymbolButton
@@ -28,31 +27,38 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
 
     val result by calculatorViewModel.result.observeAsState("0")
     val symbolBg by calculatorViewModel.symbolBg.observeAsState(Pair("", Purple200))
-    val isLand = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
-    Column(Modifier.background(color = Color.Black)) {
+    Column(
+        Modifier
+            .background(color = Color.Black)
+            .statusBarsPadding()
+    ) {
 
         // 竖屏状态下上方留白，横屏去除
-        val resultSize: TextUnit = if (!isLand) {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(0.30f)
-            )
-            60.sp
-        } else {
-            40.sp
-        }
+        val topPadding: Float = integerResource(id = R.integer.result_top_padding).toFloat() / 100
+        val resultSize: TextUnit = integerResource(id = R.integer.result_size).sp
+
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(topPadding)
+        )
 
         // 内容区
-        Text(
-            text = result, modifier = Modifier
-                .fillMaxWidth()
-                .padding(15.dp),
-            textAlign = TextAlign.End,
-            maxLines = 1,
-            color = Color.White,
-            fontSize = resultSize
-        )
+        SelectionContainer {
+            // 使用SelectionContainer使Text可复制
+            Text(
+                text = result, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = dimensionResource(id = R.dimen.result_horizontal_padding),
+                        vertical = dimensionResource(id = R.dimen.result_vertical_padding)
+                    ),
+                textAlign = TextAlign.End,
+                maxLines = 1,
+                color = Color.White,
+                fontSize = resultSize
+            )
+        }
 
         // 按钮区
         Column(
@@ -167,7 +173,12 @@ fun CalculatorPage(calculatorViewModel: CalculatorViewModel) {
                 BaseNumberButton(".") {
                     calculatorViewModel.buildDecimalPoint(result)
                 }
-                BaseBigSymbolButton("=") {
+
+                BaseNumberButton("+/-") {
+                    calculatorViewModel.buildPlusOrMinus(result)
+                }
+
+                BaseSymbolButton("=", backgroundColor = symbolBg) {
                     calculatorViewModel.calculatorResult()
                 }
             }
